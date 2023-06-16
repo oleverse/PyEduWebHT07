@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from pyeduwebht06.db.models import Base
+from pyeduwebht07.db.models import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
