@@ -3,6 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey, Table
 from sqlalchemy.sql.sqltypes import DateTime
+from sqlalchemy.sql.functions import concat
+from sqlalchemy.ext.hybrid import hybrid_property
 
 Base = declarative_base()
 
@@ -30,7 +32,10 @@ class Student(Base):
     last_name = Column("last_name", String(256), nullable=False)
     group_id = Column("group_id", Integer, ForeignKey(Group.id, ondelete="SET NULL"))
     grades = relationship("Grade", backref="student", cascade="all, delete")
-    # subjects = relationship("Subject", secondary="grades", backref="students")
+
+    @hybrid_property
+    def full_name(self):
+        return self.first_name + " " + self.last_name
 
 
 class Teacher(Base):
@@ -39,6 +44,10 @@ class Teacher(Base):
     first_name = Column("first_name", String(256), nullable=False)
     last_name = Column("last_name", String(256), nullable=False)
     subjects = relationship("Subject", backref="teacher")
+
+    @hybrid_property
+    def full_name(self):
+        return self.first_name + " " + self.last_name
 
 
 class Subject(Base):
