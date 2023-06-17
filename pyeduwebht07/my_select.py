@@ -5,7 +5,7 @@ from db.connection import session
 from db.models import *
 
 
-skip = "(Ctrl+C or Enter to skip): "
+skip = "(Ctrl+C to terminate.): "
 
 
 def input(prompt):
@@ -311,7 +311,7 @@ def select_12():
     else:
         subquery = select(func.max(Grade.got_at).cast(Date)).\
             select_from(Grade).\
-            where(Grade.subject_id == sbj_id).subquery()
+            where(Grade.subject_id == sbj_id).scalar_subquery()
 
         result = session.query(
             label('group', Group.name),
